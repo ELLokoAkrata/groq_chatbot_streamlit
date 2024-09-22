@@ -20,8 +20,9 @@ Asegúrate de tener instaladas las siguientes dependencias en tu entorno de Pyth
 ## Instalación
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/tu_usuario/tu_repositorio.git
-   cd tu_repositorio
+  https://github.com/Ellokoakarata/groq_chatbot_streamlit
+   Navega al directorio del proyecto:
+   cd 
    ```
 
 2. Crea un entorno virtual (opcional pero recomendado):
