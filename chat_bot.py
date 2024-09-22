@@ -156,7 +156,11 @@ if st.session_state.get("logged_in", False):
             internal_prompt += "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state['messages'][-5:]])
             internal_prompt += f"\n\n{user_name}: {prompt}"
 
+            # Cambiar aquí para incluir el argumento 'messages'
             chat_completion = client.chat.completions.create(
+                messages=[
+                    {"role": "user", "content": internal_prompt}
+                ],
                 model="llama-3.1-70b-versatile",
                 temperature=0.96,
                 max_tokens=2800,
