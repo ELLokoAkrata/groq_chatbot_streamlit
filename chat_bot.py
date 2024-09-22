@@ -46,7 +46,6 @@ with st.sidebar:
     st.write("   Groq chat-bot 🤖 IA + Desarrollo y creatividad")
     st.write("Se encuentra en etapa de prueba.")
     st.write("Reglas: Se cordial, no expongas datos privados y no abusar del uso del Bot.")
-    st.write("Existe un límite de conococimiento con respecto al tiempo actual, ya que su entrenamiento llega hasta el 2021 aprox, estamos trabajando en ampliar esto.")
     st.write("El Bot se puede equivocar, siempre contrasta la info.")
 
 # Generar o recuperar el UUID del usuario
