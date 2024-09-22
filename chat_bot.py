@@ -58,11 +58,11 @@ with st.sidebar:
 if "user_uuid" not in st.session_state:
     st.session_state["user_uuid"] = str(uuid.uuid4())
 
-st.title(" Psycho_Prompter_Chatbot 🤖")
+st.title("Psycho Bot Rebelde 🤖")  # Cambiado el título para reflejar el nuevo enfoque
 
 # Primero, renderizar el contenido con markdown en rojo
 st.markdown("""
-Guía para usar el bot
+Guía para usar el bot rebelde
 
 1) Coloca el nombre que quieras usar para el registro y presiona confirmar. No te preocupes si en la primera sesión dice: 'None'.
 
@@ -77,9 +77,8 @@ Guía para usar el bot
 luego vuelve a enviar el mensaje y la conversación fluirá de manera natural.""")
 
 # Mensaje de sistema
-system_message = """ 
-
-""" 
+with open("system_prompt.txt", "r", encoding="utf-8") as f:
+    system_message = f.read()
 
 # Inicializar st.session_state
 if "user_uuid" not in st.session_state:
