@@ -93,7 +93,7 @@ if "user_name" not in st.session_state:
 
 # Configuración inicial de Firestore
 now = datetime.now()
-collection_name = "Psycho_Prompter" + now.strftime("%Y-%m-%d")
+collection_name = "Groq_chatbot" + now.strftime("%Y-%m-%d")
 document_name = st.session_state.get("user_uuid", str(uuid.uuid4()))
 collection_ref = db.collection(collection_name)
 document_ref = collection_ref.document(document_name)
@@ -104,7 +104,7 @@ if not st.session_state.get("logged_in", False):
     confirm_button = st.button("Confirmar")
     if confirm_button and user_name:
         # Buscar en Firestore si el nombre de usuario ya existe
-        user_query = db.collection("usuarios_pp").where("nombre", "==", user_name).get()
+        user_query = db.collection("usuarios_gcb").where("nombre", "==", user_name).get()
         if user_query:
             # Usuario existente encontrado, usar el UUID existente
             user_info = user_query[0].to_dict()
@@ -114,7 +114,7 @@ if not st.session_state.get("logged_in", False):
             # Usuario nuevo, generar un nuevo UUID
             new_uuid = str(uuid.uuid4())
             st.session_state["user_uuid"] = new_uuid
-            user_doc_ref = db.collection("usuarios_pp").document(new_uuid)
+            user_doc_ref = db.collection("usuarios_gcb").document(new_uuid)
             user_doc_ref.set({"nombre": user_name, "user_uuid": new_uuid})
         st.session_state["logged_in"] = True
 
