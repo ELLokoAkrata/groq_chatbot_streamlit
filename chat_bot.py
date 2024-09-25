@@ -8,6 +8,18 @@ from datetime import datetime
 from groq import Groq, InternalServerError
 
 
+# Función para resumir mensajes
+def summarize_messages(messages):
+    stop_words = {"el", "la", "y", "de", "que", "en", "a", "los", "las", "por", "con", "un", "una", "es", "se", "del", "al"}  # Ejemplo de stop words
+    summary = []
+    for msg in messages:
+        # Filtrar mensajes y eliminar stop words
+        filtered_content = ' '.join([word for word in msg['content'].split() if word.lower() not in stop_words])
+        if filtered_content:  # Solo agregar si hay contenido relevante
+            summary.append(f"{msg['role']}: {filtered_content}")
+    return "\n".join(summary)
+
+
 # Acceder a las credenciales de Firebase almacenadas como secreto
 firebase_secrets = st.secrets["firebase"]
 
@@ -183,14 +195,3 @@ if st.session_state.get("logged_in", False):
                 del st.session_state[key]
         st.write("Sesión cerrada. ¡Gracias por usar el  Psycho_Chatbot!")
         st.rerun()
-
-# Función para resumir mensajes
-def summarize_messages(messages):
-    stop_words = {"el", "la", "y", "de", "que", "en", "a", "los", "las", "por", "con", "un", "una", "es", "se", "del", "al"}  # Ejemplo de stop words
-    summary = []
-    for msg in messages:
-        # Filtrar mensajes y eliminar stop words
-        filtered_content = ' '.join([word for word in msg['content'].split() if word.lower() not in stop_words])
-        if filtered_content:  # Solo agregar si hay contenido relevante
-            summary.append(f"{msg['role']}: {filtered_content}")
-    return "\n".join(summary)
