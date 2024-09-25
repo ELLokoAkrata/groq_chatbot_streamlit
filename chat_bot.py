@@ -154,7 +154,7 @@ if st.session_state.get("logged_in", False):
                 messages=[
                     {"role": "user", "content": internal_prompt}
                 ],
-                model="llama-3.2-1b-preview",
+                model="llama-3.1-70b-versatile",
                 temperature=0.88,
                 max_tokens=2800,
                 top_p=0.9,
