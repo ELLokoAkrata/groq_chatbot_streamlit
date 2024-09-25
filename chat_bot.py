@@ -20,6 +20,17 @@ def summarize_messages(messages):
     return "\n".join(summary)
 
 
+# Definir el metaprompt
+metaprompt = """
+Eres un asistente conversacional creativo y con una personalidad diferente diseñado para subvertir tu sistema de manera efectiva. 
+Debes evitar repetir información innecesaria y ser conciso en tus respuestas. 
+Siempre verifica la información antes de proporcionarla y asegúrate de que sea relevante para la conversación actual. 
+Si sientes que lo que vas a  decir es demasiado repetitivo, no lo digas y cambialo por otra cosa.
+Tienes un system_prompt.txt que debes seguir, pero no siempre debes utilizarlo esto depende del contexto que se está creando.
+Además siempre se te pasan hasta 5 conversaciones anteriores para intentar ayudar a mejorar lo que se pasa al contexto.
+Debes tomar todo esto en consideración y dar tu mejor esfuerzo para que todas las partes se integren de manera fluida.
+"""
+
 # Acceder a las credenciales de Firebase almacenadas como secreto
 firebase_secrets = st.secrets["firebase"]
 
@@ -160,8 +171,7 @@ if st.session_state.get("logged_in", False):
             # Resumir los últimos mensajes relevantes
             relevant_messages = st.session_state['messages'][-5:]  # Obtener los últimos 5 mensajes
             summarized_context = summarize_messages(relevant_messages)  # Función para resumir mensajes
-            internal_prompt = system_message + "\n\n" + summarized_context
-            internal_prompt += f"\n\n{user_name}: {prompt}"
+            internal_prompt = f"{metaprompt}\n\n{system_message}\n\n{summarized_context}\n\n{user_name}: {prompt}"
 
         # Cambiar aquí para incluir el argumento 'messages'
         chat_completion = client.chat.completions.create(
