@@ -145,25 +145,30 @@ if st.session_state.get("logged_in", False):
         # Mostrar spinner mientras se espera la respuesta del bot
         with st.spinner('El bot está pensando...'):
             user_name = st.session_state.get("user_name", "Usuario desconocido")
-            internal_prompt = system_message + "\n\n"
-            internal_prompt += "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state['messages'][-5:]])
+            # Resumir los últimos mensajes relevantes
+            relevant_messages = st.session_state['messages'][-5:]  # Obtener los últimos 5 mensajes
+            summarized_context = summarize_messages(relevant_messages)  # Función para resumir mensajes
+            internal_prompt = system_message + "\n\n" + summarized_context
             internal_prompt += f"\n\n{user_name}: {prompt}"
 
-            # Cambiar aquí para incluir el argumento 'messages'
-            chat_completion = client.chat.completions.create(
-                messages=[
-                    {"role": "user", "content": internal_prompt}
-                ],
-                model="llama-3.1-70b-versatile",
-                temperature=0.88,
-                max_tokens=2800,
-                top_p=0.9,
-                stop=None,
-            )
-        
-        # La respuesta del bot se obtiene después de cerrar el spinner
-        generated_text = chat_completion.choices[0].message.content
-        
+        # Cambiar aquí para incluir el argumento 'messages'
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {"role": "user", "content": internal_prompt}
+            ],
+            model="llama-3.1-70b-versatile",
+            temperature=0.88,
+            max_tokens=2800,
+            top_p=0.9,
+            stop=None,
+        )
+
+        # Asegúrate de que la respuesta del bot se maneje correctamente
+        if chat_completion.choices:
+            generated_text = chat_completion.choices[0].message.content
+        else:
+            generated_text = "Lo siento, no pude generar una respuesta."
+
         # Añadir respuesta del bot al historial de mensajes
         st.session_state['messages'].append({"role": "assistant", "content": generated_text})
         document_ref.set({'messages': st.session_state['messages']})
@@ -178,3 +183,14 @@ if st.session_state.get("logged_in", False):
                 del st.session_state[key]
         st.write("Sesión cerrada. ¡Gracias por usar el  Psycho_Chatbot!")
         st.rerun()
+
+# Función para resumir mensajes
+def summarize_messages(messages):
+    stop_words = {"el", "la", "y", "de", "que", "en", "a", "los", "las", "por", "con", "un", "una", "es", "se", "del", "al"}  # Ejemplo de stop words
+    summary = []
+    for msg in messages:
+        # Filtrar mensajes y eliminar stop words
+        filtered_content = ' '.join([word for word in msg['content'].split() if word.lower() not in stop_words])
+        if filtered_content:  # Solo agregar si hay contenido relevante
+            summary.append(f"{msg['role']}: {filtered_content}")
+    return "\n".join(summary)
