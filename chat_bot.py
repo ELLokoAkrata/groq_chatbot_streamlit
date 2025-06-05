@@ -52,8 +52,12 @@ client = Groq(api_key=api_key)
 # Interfaz de usuario con Streamlit
 # -------------------------
 # Mostrar logo
-logo_url = 'https://firebasestorage.googleapis.com/v0/b/diario-ad840.appspot.com/o/c8d5e737-bd01-40b0-8c9f-721d5f123f91.webp?alt=media&token=d01aeeac-48a2-41ca-82c4-ca092946bbc9'
-st.image(logo_url, use_column_width=True)
+logo_url = (
+    "https://firebasestorage.googleapis.com/v0/b/diario-ad840.appspot.com/o/"
+    "c8d5e737-bd01-40b0-8c9f-721d5f123f91.webp?alt=media&token="
+    "d01aeeac-48a2-41ca-82c4-ca092946bbc9"
+)
+st.image(logo_url, use_container_width=True)
 
 with st.sidebar:
     st.write("   Groq chat-bot 🤖 IA + Desarrollo y creatividad")
