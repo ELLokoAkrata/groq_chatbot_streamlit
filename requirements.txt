@@ -1,5 +1,3 @@
-   streamlit
-   firebase-admin
-   uuid
-   datetime
-   groq
+streamlit
+firebase-admin
+groq

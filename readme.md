@@ -63,6 +63,7 @@ Asegúrate de tener instaladas las siguientes dependencias en tu entorno de Pyth
 2. Abre tu navegador y ve a `http://localhost:8501`.
 
 3. Introduce tu nombre para comenzar la conversación con el bot.
+4. El comportamiento del bot se define en `system_prompt.txt`, que puedes modificar para adaptar su personalidad.
 
 ## Contribuciones
 Las contribuciones son bienvenidas. Si deseas contribuir, por favor abre un issue o envía un pull request.
