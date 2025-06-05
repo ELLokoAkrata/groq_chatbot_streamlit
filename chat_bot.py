@@ -180,14 +180,21 @@ if st.session_state["logged_in"]:
                 temperature=1,
                 max_completion_tokens=6080,
                 top_p=1,
-                stream=False,
+                stream=True,
                 stop=None,
             )
-        
-        if chat_completion.choices:
-            generated_text = chat_completion.choices[0].message.content
-        else:
+
+        generated_text = ""
+        message_placeholder = st.empty()
+        for chunk in chat_completion:
+            if chunk.choices:
+                content = chunk.choices[0].delta.content
+                if content:
+                    generated_text += content
+                    message_placeholder.markdown(generated_text + "▌")
+        if not generated_text:
             generated_text = "Lo siento, no pude generar una respuesta."
+        message_placeholder.markdown(generated_text)
         
         st.session_state["messages"].append({"role": "assistant", "content": generated_text})
         document_ref.set({"messages": st.session_state["messages"]})

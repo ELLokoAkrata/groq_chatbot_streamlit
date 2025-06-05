@@ -8,6 +8,7 @@ Psycho Bot Rebelde es un chatbot interactivo desarrollado con Streamlit y Fireba
 - Almacenamiento de conversaciones en Firestore.
 - Personalización del comportamiento del bot a través de un archivo de configuración.
 - Interfaz amigable y fácil de usar.
+- Respuestas generadas en streaming para una interacción más fluida.
 
 ## Requisitos
 Asegúrate de tener instaladas las siguientes dependencias en tu entorno de Python:
