@@ -118,7 +118,7 @@ if not st.session_state["logged_in"]:
             user_doc_ref = db.collection("usuarios_gcb").document(new_uuid)
             user_doc_ref.set({"nombre": user_name, "user_uuid": new_uuid})
         st.session_state["logged_in"] = True
-        st.experimental_rerun()
+        st.rerun()
 
 # Función para obtener un saludo rebelde aleatorio
 def get_random_greeting():
@@ -191,7 +191,7 @@ if st.session_state["logged_in"]:
         
         st.session_state["messages"].append({"role": "assistant", "content": generated_text})
         document_ref.set({"messages": st.session_state["messages"]})
-        st.experimental_rerun()
+        st.rerun()
 
 # -------------------------
 # Gestión del cierre de sesión
@@ -201,4 +201,4 @@ if st.session_state["logged_in"]:
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.write("Sesión cerrada. ¡Gracias por usar el Psycho_Chatbot!")
-        st.experimental_rerun()
+        st.rerun()
