@@ -139,7 +139,7 @@ if st.session_state["logged_in"]:
     
     # Cargar mensajes previos de Firestore
     doc_data = document_ref.get().to_dict()
-    if doc_data and 'messages' in doc_data:
+    if doc_data and "messages" in doc_data:
         st.session_state["messages"] = doc_data["messages"]
     
     # Si es la primera vez, insertar un saludo rebelde
@@ -165,18 +165,16 @@ if st.session_state["logged_in"]:
     prompt = st.chat_input("Escribe tu mensaje:", key="new_chat_input")
     if prompt:
         st.session_state["messages"].append({"role": "user", "content": prompt})
+        context = st.session_state["messages"][-5:]
         with st.spinner("El bot está pensando..."):
-            user_name = st.session_state.get("user_name", "Usuario desconocido")
-            # Armar el prompt interno: concatenamos metaprompt, system_message y el mensaje del usuario
-            internal_prompt = f"{metaprompt}\n\n{user_name}: {prompt}"
-            
-            # Llamada al modelo usando el system prompt del ejemplo
+            messages_to_send = [
+                {"role": "system", "content": system_message},
+                {"role": "system", "content": metaprompt},
+            ] + context
+
             chat_completion = client.chat.completions.create(
                 model="meta-llama/llama-4-scout-17b-16e-instruct",
-                messages=[
-                    {"role": "system", "content": system_message},
-                    {"role": "user", "content": internal_prompt}
-                ],
+                messages=messages_to_send,
                 temperature=1,
                 max_completion_tokens=6080,
                 top_p=1,
